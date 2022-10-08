@@ -354,9 +354,7 @@ public class MainActivity extends AppCompatActivity {
         locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         @SuppressLint("MissingPermission") Location loc = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-        latitud.setText(String.valueOf(loc.getLatitude()));
-        longitud.setText(String.valueOf(loc.getLongitude()));
-
+        // 
         String timeStamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
 
 

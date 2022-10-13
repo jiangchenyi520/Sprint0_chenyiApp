@@ -53,12 +53,9 @@ public class MainActivity extends AppCompatActivity {
 
     private ScanCallback callbackDelEscaneo = null;
 
+    private int valor;
     private TextView elTexto;
-    private TextView longitud;
-    private  TextView latitud;
-
     private Button elBotonEnviar;
-
 
 
     // --------------------------------------------------------------
@@ -107,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
         BluetoothDevice bluetoothDevice = resultado.getDevice();
         byte[] bytes = resultado.getScanRecord().getBytes();
         int rssi = resultado.getRssi();
-
         Log.d(ETIQUETA_LOG, " ****************************************************");
         Log.d(ETIQUETA_LOG, " ****** DISPOSITIVO DETECTADO BTLE ****************** ");
         Log.d(ETIQUETA_LOG, " ****************************************************");
@@ -143,8 +139,11 @@ public class MainActivity extends AppCompatActivity {
                 + Utilidades.bytesToInt(tib.getMajor()) + " ) ");
         Log.d(ETIQUETA_LOG, " minor  = " + Utilidades.bytesToHexString(tib.getMinor()) + "( "
                 + Utilidades.bytesToInt(tib.getMinor()) + " ) ");
+
         Log.d(ETIQUETA_LOG, " txPower  = " + Integer.toHexString(tib.getTxPower()) + " ( " + tib.getTxPower() + " )");
         Log.d(ETIQUETA_LOG, " ****************************************************");
+
+        valor = Utilidades.bytesToInt(tib.getMinor());
 
     } // ()
 
@@ -300,8 +299,6 @@ public class MainActivity extends AppCompatActivity {
         // aqui es donde se declaran las variables del layout
         this.elTexto = (TextView) findViewById(R.id.elTexto);
         this.elBotonEnviar = (Button) findViewById(R.id.botonEnviar);
-        this.longitud = (TextView) findViewById(R.id.longitud);
-        this.latitud= (TextView) findViewById(R.id.latitud);
 
         Log.d(ETIQUETA_LOG, " onCreate(): empieza ");
 
@@ -331,6 +328,7 @@ public class MainActivity extends AppCompatActivity {
                     // in your app.
                 }  else {
 
+
                     Log.d(ETIQUETA_LOG, " onRequestPermissionResult(): Socorro: permisos NO concedidos  !!!!");
 
                 }
@@ -341,11 +339,6 @@ public class MainActivity extends AppCompatActivity {
     } // ()
 
 
-    public void guardarMedida(View view){
-        Log.d("Medida", "guardarMedida: ");
-        JSONObject jsonObject = new JSONObject();
-
-    }
 
     public void boton_enviar_pulsado (View quien) {
         Log.d("clienterestandroid", "boton_enviar_pulsado");
@@ -354,15 +347,14 @@ public class MainActivity extends AppCompatActivity {
         locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         @SuppressLint("MissingPermission") Location loc = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-        // 
+        //
         String timeStamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
 
 
         JSONObject jsonObject = new JSONObject();
         try {
-
             jsonObject.put("id", null);
-            jsonObject.put("valor", "328768");
+            jsonObject.put("valor", String.valueOf(Math.random()));
             jsonObject.put("fecha", timeStamp);
             jsonObject.put("latitud", String.valueOf(loc.getLongitude()));
             jsonObject.put("longitud", String.valueOf(loc.getLongitude()));
@@ -379,16 +371,59 @@ public class MainActivity extends AppCompatActivity {
                 .getAsJSONArray(new JSONArrayRequestListener() {
                     @Override
                     public void onResponse(JSONArray response) {
-
-                        Toast.makeText(getApplicationContext(),"se ha subido la informacion",Toast.LENGTH_SHORT).show();
                         // do anything with response
                     }
                     @Override
                     public void onError(ANError error) {
 
-                        Toast.makeText(getApplicationContext(),"error XD",Toast.LENGTH_SHORT).show();
+                        // handle error
+                    }
+                });
+    }
+
+
+    public void boton_enviar_pulsadoReal (View quien) {
+
+
+        Log.d("clienterestandroid", "boton_enviar_pulsado");
+
+
+        this.elTexto.setText("pulsado");
+
+        locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        @SuppressLint("MissingPermission") Location loc = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        //
+        String timeStamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("id", null);
+            jsonObject.put("valor",valor);
+            jsonObject.put("fecha", timeStamp);
+            jsonObject.put("latitud", String.valueOf(loc.getLongitude()));
+            jsonObject.put("longitud", String.valueOf(loc.getLongitude()));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        AndroidNetworking.post("http://192.168.43.233:8080/insertarMedicion")
+                .addJSONObjectBody(jsonObject) // posting json
+                .setTag("test")
+                .setPriority(Priority.MEDIUM)
+                .build()
+                .getAsJSONArray(new JSONArrayRequestListener() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        // do anything with response
+                    }
+                    @Override
+                    public void onError(ANError error) {
 
                         // handle error
                     }
                 });
-    }}
+    }
+
+}

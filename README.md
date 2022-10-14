@@ -4,7 +4,9 @@ Este proyecto consiste en la comunicacion del nodo sensor mediante beacon BLE co
 2. App (Android Studio) https://github.com/jiangchenyi520/Sprint0_chenyiApp
 3. Servidor REST https://github.com/jiangchenyi520/Sprint-0_Web  
 
+--------------------------------------------------------------------------------------------------------------------------------------------
 Para clonar el repositorio: 
+--------------------------------------------------------------------------------------------------------------------------------------------
 
 En GitHub.com, vaya a la página principal del repositorio. 
 1. Encima de la lista de archivos, haga clic en Código.
@@ -22,4 +24,7 @@ En GitHub.com, vaya a la página principal del repositorio.
 
 En caso de tener dudas acceda a https://docs.github.com/es/repositories/creating-and-managing-repositories/cloning-a-repository
 
-
+--------------------------------------------------------------------------------------------------------------------------------------------
+  APP 
+--------------------------------------------------------------------------------------------------------------------------------------------
+![WhatsApp Image 2022-10-14 at 01 56 08](https://user-images.githubusercontent.com/73239280/195735291-84ffc740-7555-4ff2-a0ac-d07986d6943d.jpeg)

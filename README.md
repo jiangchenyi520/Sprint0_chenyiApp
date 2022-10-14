@@ -10,7 +10,8 @@ Para clonar el repositorio:
 
 En GitHub.com, vaya a la página principal del repositorio. 
 1. Encima de la lista de archivos, haga clic en Código.
-![image](https://user-images.githubusercontent.com/73239280/195734363-3e8c083f-8d94-4197-85da-c2bc929f528e.png)
+
+![195734363-3e8c083f-8d94-4197-85da-c2bc929f528e](https://user-images.githubusercontent.com/73239280/195735557-8d59c5c9-591a-4221-9b66-f377675b20b2.png)
 
 2. Copia la dirección URL del repositorio. 
 - Para clonar el repositorio con HTTPS, en «HTTPS» haz clic en (simbolo de pegar).
